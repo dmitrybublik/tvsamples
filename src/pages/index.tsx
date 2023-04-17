@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -10,23 +10,46 @@ const keyboardEventToString = (ev: KeyboardEvent): string => {
   return `altKey: ${ev.altKey}, code: ${ev.code}, ctrlKey: ${ev.ctrlKey}, isComposing: ${ev.isComposing}, key: ${ev.key}, location: ${ev.location}, metaKey: ${ev.metaKey}, repeat: ${ev.repeat}, shiftKey: ${ev.shiftKey}`;
 }
 
+const focusEventToString = (ev: FocusEvent): string => {
+  return `target: ${ev.target}`;
+}
+
+
 export default function Home() {
 
-  const [messages, setMessages] = useState([] as string[]);
+  const [keyDownStr, setKeyDownStr] = useState("KeyDown: ");
+  const [keyUpStr, setKeyUpStr] = useState("KeyUp: ");
+  const [keyPressStr, setKeyPressStr] = useState("KeyPress: ");
+  const [focusStr, setFocusStr] = useState("Focus: ");
 
   useEffect(() => {
     window.addEventListener("keydown", (ev) => {
-      setMessages([`KeyDown: ${keyboardEventToString(ev)}`, ...messages]);
+      setKeyDownStr(`KeyDown: ${keyboardEventToString(ev)}`);
     });
     window.addEventListener("keypress", (ev) => {
-      setMessages([`KeyPress: ${keyboardEventToString(ev)}`, ...messages]);
+      setKeyPressStr(`KeyPress: ${keyboardEventToString(ev)}`);
     });
     window.addEventListener("keyup", (ev) => {
-      setMessages([`KeyUp: ${keyboardEventToString(ev)}`, ...messages]);
+      setKeyUpStr(`KeyUp: ${keyboardEventToString(ev)}`);
     });
-  });
+    window.addEventListener("focusin", (ev) => {
+      setFocusStr(`Focus: ${focusEventToString(ev)}`);
+      const target = ev.target as any;
+      if (target?.style?.background !== undefined) {
+        target.style.background = "pink";
+      }
+    });
+    window.addEventListener("focusout", (ev) => {
+      const target = ev.target as any;
+      if (target?.style?.background !== undefined) {
+        target.style.background = "";
+      }
+    });
 
-  return (
+    window.focus();
+  });  
+
+  return (    
     <>
       <Head>
         <title>TV Samples</title>
@@ -35,13 +58,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <p>MESSAGES:</p>
         <div>
-          {messages.map((msg, index) => {
-            return (
-              <p key={`msg${index}`}>{msg}</p>
-            );
-          })}
+          <p>MESSAGES:</p>
+          <p>{keyDownStr}</p>
+          <p>{keyUpStr}</p>
+          <p>{keyPressStr}</p>
+          <p>{focusStr}</p>
+        </div>
+        <div style={{display: "flex", gap: 24}}>
+          <button>Button1</button>
+          <button>Button2</button>
+          <button>Button3</button>
         </div>
       </main>
     </>
