@@ -1,55 +1,50 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import { useEffect, useRef, useState } from 'react'
-
-const inter = Inter({ subsets: ['latin'] });
+import { useEffect } from 'react'
 
 const keyboardEventToString = (ev: KeyboardEvent): string => {
-  return `altKey: ${ev.altKey}, code: ${ev.code}, ctrlKey: ${ev.ctrlKey}, isComposing: ${ev.isComposing}, key: ${ev.key}, location: ${ev.location}, metaKey: ${ev.metaKey}, repeat: ${ev.repeat}, shiftKey: ${ev.shiftKey}`;
+  return `code: ${ev.code}, key: ${ev.key}, location: ${ev.location}, metaKey: ${ev.metaKey}`;
 }
 
 const focusEventToString = (ev: FocusEvent): string => {
   return `target: ${ev.target}`;
 }
 
+function setupListeners() {
+
+  window.addEventListener("keydown", (ev) => {
+    window.document.getElementById("keyDownStr")!.innerText = `KeyDown: ${keyboardEventToString(ev)}`;
+    ev.preventDefault();
+  }, false);
+  window.addEventListener("keypress", (ev) => {
+    window.document.getElementById("keyPressStr")!.innerText = `KeyPress: ${keyboardEventToString(ev)}`;
+  });
+  window.addEventListener("keyup", (ev) => {
+    window.document.getElementById("keyUpStr")!.innerText = `KeyUp: ${keyboardEventToString(ev)}`;
+  });
+  window.addEventListener("focusin", (ev) => {
+    window.document.getElementById("focusStr")!.innerText = `Focus: ${focusEventToString(ev)}`;
+    const target = ev.target as any;
+    if (target?.style?.background !== undefined) {
+      target.style.background = "pink";
+    }
+  });
+  window.addEventListener("focusout", (ev) => {
+    const target = ev.target as any;
+    if (target?.style?.background !== undefined) {
+      target.style.background = "";
+    }
+  });
+}
 
 export default function Home() {
 
-  const [keyDownStr, setKeyDownStr] = useState("KeyDown: ");
-  const [keyUpStr, setKeyUpStr] = useState("KeyUp: ");
-  const [keyPressStr, setKeyPressStr] = useState("KeyPress: ");
-  const [focusStr, setFocusStr] = useState("Focus: ");
-
   useEffect(() => {
-    window.addEventListener("keydown", (ev) => {
-      setKeyDownStr(`KeyDown: ${keyboardEventToString(ev)}`);
-    });
-    window.addEventListener("keypress", (ev) => {
-      setKeyPressStr(`KeyPress: ${keyboardEventToString(ev)}`);
-    });
-    window.addEventListener("keyup", (ev) => {
-      setKeyUpStr(`KeyUp: ${keyboardEventToString(ev)}`);
-    });
-    window.addEventListener("focusin", (ev) => {
-      setFocusStr(`Focus: ${focusEventToString(ev)}`);
-      const target = ev.target as any;
-      if (target?.style?.background !== undefined) {
-        target.style.background = "pink";
-      }
-    });
-    window.addEventListener("focusout", (ev) => {
-      const target = ev.target as any;
-      if (target?.style?.background !== undefined) {
-        target.style.background = "";
-      }
-    });
+    window.document.getElementById("messages")!.innerText = "USE EFFECT WORKS!";
+    setupListeners();
+  });
 
-    window.focus();
-  });  
-
-  return (    
+  return (
     <>
       <Head>
         <title>TV Samples</title>
@@ -58,14 +53,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div>
-          <p>MESSAGES:</p>
-          <p>{keyDownStr}</p>
-          <p>{keyUpStr}</p>
-          <p>{keyPressStr}</p>
-          <p>{focusStr}</p>
+        <div style={{ background: "yellow" }}>
+          <p id="messages">MESSAGES:</p>
+          <p id="keyDownStr">KeyDown:</p>
+          <p id="keyUpStr">KeyUp:</p>
+          <p id="keyPressStr">KeyPress:</p>
+          <p id="focusStr">Focus:</p>
         </div>
-        <div style={{display: "flex", gap: 24}}>
+        <div style={{ display: "flex", gap: 24 }}>
           <button>Button1</button>
           <button>Button2</button>
           <button>Button3</button>
