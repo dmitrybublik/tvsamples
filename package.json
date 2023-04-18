@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browserslist": [
+    "chrome 49",
+    "Opera 36"
+  ],  
   "dependencies": {
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",

@@ -1,3 +1,30 @@
+function isSessionStorageAvailable() {
+    try {
+        const storage = window["sessionStorage"];
+        const x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return false;
+    }
+}
+
+function isLocalStorageAvailable() {
+    try {
+        const storage = window["localStorage"];
+        const x = "__storage_test__";
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return false;
+    }
+}
+
+
 function argumentsToArray(args) {
     let result = [];
     for (let i = 0; i < args.length; i++) {
@@ -7,18 +34,11 @@ function argumentsToArray(args) {
 }
 
 function addMessage(msgType, args) {
-    let messagesStr = sessionStorage.getItem("Messages");
-    let messages = [];
-    if (messagesStr) {
-        messages = JSON.parse(messagesStr);
-    }
-
-    let message = `\n${messages.length} [${msgType}]: ${argumentsToArray(args).join(" | ")}`;
-    messages.unshift(message);
-    sessionStorage.setItem("Messages", JSON.stringify(messages));
+    let message = `\n${window.tvMessages.length} [${msgType}]: ${argumentsToArray(args).join(" | ")}`;
+    window.tvMessages.unshift(message);
     let messageDiv = document.getElementById("messages");
     if (messageDiv) {
-        messageDiv.innerText = messages.slice(0, 16);
+        messageDiv.innerText = window.tvMessages.slice(0, 16);
     }
 }
 
@@ -52,6 +72,7 @@ function main() {
 
     //Then redefine the old console
     window.console = console;
+    window.tvMessages = [`\n*** Start messaging. localStorage available: ${isLocalStorageAvailable()} ***`];
 }
 
 main();
