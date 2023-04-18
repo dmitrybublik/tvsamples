@@ -25,7 +25,7 @@ function setupListeners() {
 
   window.addEventListener("keydown", (ev) => {
     window.document.getElementById("keyDownStr")!.innerText = `KeyDown: ${keyboardEventToString(ev)}`;
-    console.log("on keydown", ev);
+    console.log(`on keydown key: ${ev.key}, code: ${ev.code}`, ev);
     ev.preventDefault();
   }, false);
   window.addEventListener("keypress", (ev) => {

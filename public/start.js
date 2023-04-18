@@ -18,7 +18,7 @@ function addMessage(msgType, args) {
     sessionStorage.setItem("Messages", JSON.stringify(messages));
     let messageDiv = document.getElementById("messages");
     if (messageDiv) {
-        messageDiv.innerText = messages.slice(0, 12);
+        messageDiv.innerText = messages.slice(0, 16);
     }
 }
 
@@ -27,10 +27,8 @@ function main() {
         return;
     }
 
-    window.console.warn("window.tvMessages init");
-
     // define a new console
-    var console = (function (oldCons) {
+    let console = (function (oldCons) {
         return {
             log: function () {
                 addMessage("LOG", arguments);
@@ -41,7 +39,7 @@ function main() {
                 oldCons.info.apply(this, arguments);
             },
             warn: function () {
-                // addMessage("WARN", arguments);
+                addMessage("WARN", arguments);
                 oldCons.warn.apply(this, arguments);
             },
             error: function () {
