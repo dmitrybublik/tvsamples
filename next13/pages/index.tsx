@@ -63,7 +63,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer} style={{background: "black", color: "white"}}>
-        Version v2.1, nextjs version: {packageJson.dependencies.next}
+        Version v2.2, nextjs version: {packageJson.dependencies.next}
       </footer>
     </div>
   )
