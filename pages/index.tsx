@@ -54,7 +54,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main className={styles.main} style={{background: "black", color: "white"}}>
         <h1 className={styles.title}>
           {message}
         </h1>
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        Version v1.0
+        Version v2.0
       </footer>
     </div>
   )
