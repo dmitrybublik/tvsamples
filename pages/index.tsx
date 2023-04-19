@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
+import packageJson from "../package.json";
 
 function isSessionStorageAvailable() {
   if (typeof window === "undefined") {
@@ -61,8 +62,8 @@ const Home: NextPage = () => {
         <p>localStorage available: {`${localStorageMsg}`}</p>
       </main>
 
-      <footer className={styles.footer}>
-        Version v2.0
+      <footer className={styles.footer} style={{background: "black", color: "white"}}>
+        Version v2.1, nextjs version: {packageJson.dependencies.next}
       </footer>
     </div>
   )
