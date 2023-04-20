@@ -38,15 +38,21 @@ const moduleExports = {
         rules: [
           ...config.module.rules,
           {
-            test: /\.(js|ts)$/,
-            include: [
-              "/node_modules/@sentry/",
-            ],
-            exclude: [],
-            loader: "babel-loader",
-          },
+            test: /\.(?:js|mjs|cjs)$/,
+            include: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  ['next/babel', { targets: "defaults" }]
+                ],
+                plugins: ['@babel/plugin-transform-spread']
+              }
+            }
+          }          
         ]
       }
+    console.log("CONFIG", config.module.rules);
     return config;
   },
 };
