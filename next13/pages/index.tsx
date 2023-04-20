@@ -4,23 +4,6 @@ import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import packageJson from "../package.json";
 
-function isSessionStorageAvailable() {
-  if (typeof window === "undefined") {
-    return undefined;
-  }
-
-  try {
-      const storage = window["sessionStorage"];
-      const x = "__storage_test__";
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-  }
-  catch (e) {
-      return false;
-  }
-}
-
 function isLocalStorageAvailable() {
   if (typeof window === "undefined") {
     return undefined;
