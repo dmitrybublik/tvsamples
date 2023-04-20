@@ -3,4 +3,4 @@
         "next/babel"
     ],
     "plugins": ["@babel/plugin-transform-spread"]
-}
+  }
