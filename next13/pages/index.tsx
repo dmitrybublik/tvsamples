@@ -38,6 +38,15 @@ function isLocalStorageAvailable() {
   }
 }
 
+const b = {
+  n: 100
+}
+
+const a = {
+  ...b,
+  c: 200
+}
+
 const Home: NextPage = () => {
   const [message, setMessage] = useState("useEffect() is not working.");
   const [localStorageMsg, setLocalStorageMsg] = useState<boolean | undefined>(undefined);
@@ -63,7 +72,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer} style={{background: "black", color: "white"}}>
-        Version v2.2, nextjs version: {packageJson.dependencies.next}
+        Version v2.4, nextjs version: {packageJson.dependencies.next}, ${JSON.stringify(a)}
       </footer>
     </div>
   )
