@@ -1,4 +1,5 @@
 const { withSentryConfig } = require("@sentry/nextjs");
+const path = require("path");
 
 const moduleExports = {
   // i18n, // disabled to allow next export to static HTML
@@ -39,7 +40,7 @@ const moduleExports = {
           ...config.module.rules,
           {
             test: /\.(?:js|mjs|cjs)$/,
-            include: /node_modules/,
+            include: path.resolve(__dirname, "node_modules/@sentry"),
             use: {
               loader: 'babel-loader',
               options: {
